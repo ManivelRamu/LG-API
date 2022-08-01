@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <h1>Registeration</h1>
+    <form id="reg-form">
+        <input type="text" id="name" placeholder="name"/>
+        <input type="text" id="username" placeholder="email"/>
+        <input type="password" id="password" placeholder="password"/><br>
+        <label class="labels">Select your role:</label>
+
+        <select type="dropdown" id="role" value="Select your role!">
+
+        <option id="admin" value="Admin"> Admin </option>
+
+        <option id="user" value="User"> User</option>
+
+        </select>
+        <input type="submit" value="Submit Form"/>
+        <button id="button2" type="button">Login</button>
+
+
+    </form>
+
+    <script>
+
+var button = document.getElementById("button2");
+            button.setAttribute("onclick", "move();");
+            function move() {
+    window.location.href = '/login.html';
+    
+        }
+       
+
+
+        const form=document.getElementById('reg-form')
+        form.addEventListener('submit',registerUser)
+
+        async function registerUser(event){
+            event.preventDefault()
+            const email=document.getElementById('username').value
+            const password=document.getElementById('password').value
+            const name=document.getElementById('name').value
+            const role=document.getElementById('role').value
+            
+            var button = document.getElementById("button2");
+            button.setAttribute("onclick", "move();");
+            function move() {
+    window.location.href = '/login.html?name='+name+'role'+role;
+    
+        }
+
+
+
+            const result=await fetch('/api/register',{
+                method:'POST',
+                headers:{
+                    'Content-Type':'application/json'
+                },
+                body:JSON.stringify({
+                    name,
+                    email,
+                    password,
+                    role
+                })
+            }).then((res)=>res.json())
+            if(result.status==='OK'){
+                alert("Success")
+            }else{
+                alert(result.error)
+            }
+        
+            console.log(result)
+        }
+
+
+    </script>
+</body>
+</html>

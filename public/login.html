@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <h1>Login</h1>
+    <form id="login">
+        
+        <input type="email" id="username" placeholder="email"/>
+        <input type="password" id="password" placeholder="password"/>
+        <label class="labels">Select your role:</label>
+
+        <select type="dropdown" id="role" value="Select your role!">
+
+        <option id="admin" value="Admin"> Admin </option>
+
+        <option id="user" value="User"> User</option>
+
+        </select>
+        <input type="submit" value="Submit Form"/>
+        <button id="button1" type="button">Logout</button>
+
+    </form>
+
+    <script>
+          var button = document.getElementById("button1");
+            button.setAttribute("onclick", "move();");
+            function move() {
+    window.location.href = "/index.html";
+    res.send("Logged out successfully")
+            }
+        const form=document.getElementById('login')
+        form.addEventListener('submit',login)
+
+        async function login(event){
+            event.preventDefault()
+            const email=document.getElementById('username').value
+            const password=document.getElementById('password').value
+            const role=document.getElementById('role').value
+            const result=await fetch('/api/login',{
+                method:'POST',
+                headers:{
+                    'Content-Type':'application/json'
+                },
+                body:JSON.stringify({
+                    email,
+                    password,role
+                })
+            }).then((res)=>res.json())
+            if(result.status==='OK'){
+                localStorage.setItem('token',result.data)
+                console.log('Token received',result.data);
+                alert("Success")
+            }else{
+                alert("Invalid data")
+            } 
+            console.log(result)
+        }
+    </script>
+</body>
+</html>
